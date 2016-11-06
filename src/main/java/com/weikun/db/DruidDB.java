@@ -28,13 +28,15 @@ public class DruidDB {
 
 
     }
-    @Test
-    public void getConnection(){
+
+    public static Connection getConnection(){
         try {
             conn=ds.getConnection();
         } catch (SQLException e) {
             e.printStackTrace();
+
         }
+        return conn;
     }
 
 }

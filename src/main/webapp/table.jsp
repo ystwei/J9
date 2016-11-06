@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
 <div id="contentwrapper">
 	<div class="main_content">
 		<%@include file="top.jsp" %>
@@ -11,7 +12,11 @@
 
 				
 					<div class="alert alert-error">
-						<a class="close" data-dismiss="alert">×</a> <strong>操作信息:</strong>
+						<a class="close" data-dismiss="alert">×</a> <strong>
+						操作信息:${requestScope.info}${sessionScope.user==null?"":sessionScope.user.username}
+
+
+					</strong>
 						
 					</div>
 				

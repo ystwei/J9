@@ -1,0 +1,6 @@
+1. bbsuser
+ id:主键，自动加一
+ username：登录用户名
+ password：密码
+ pic  ：存头像的。
+ pagenum：分页用的，每页几条数据
