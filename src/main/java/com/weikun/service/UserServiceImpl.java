@@ -10,8 +10,6 @@ import com.weikun.vo.BBSUser;
 public class UserServiceImpl implements  IUserService {
     private IUserDAO dao=new UserDAOImpl();
     public boolean login(BBSUser user) {
-
-
         return dao.login(user);
     }
 }
