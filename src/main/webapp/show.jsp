@@ -121,10 +121,22 @@
 
 							<li class="divider-vertical hidden-phone hidden-tablet"></li>
 							<li class="dropdown"><a href="#" class="dropdown-toggle"
-								data-toggle="dropdown"> 
-										<img src="img/user_avatar.png" alt="请登录" class="user_avatar" />
+								data-toggle="dropdown">
+										<c:if test="${sessionScope.user==null}">
 
-										${sessionScope.user==null?"游客":sessionScope.user.username}
+											<img src="img/user_avatar.png" alt="请登录" class="user_avatar" />
+											游客
+										</c:if>
+
+										<c:if test="${sessionScope.user!=null}">
+											<img src="user?action=pic&id=${sessionScope.user.id}" alt="请登录" class="user_avatar" />
+											${sessionScope.user.username}
+										</c:if>
+
+
+
+
+
 
 										
 									<b class="caret"></b></a>

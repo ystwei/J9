@@ -10,6 +10,17 @@ public class BBSUser implements Serializable {
     private String username;
     private String password;
 
+    public String getPicPath() {
+        return picPath;
+    }
+
+    public void setPicPath(String picPath) {
+        this.picPath = picPath;
+    }
+
+    private String picPath;//头像上传路径
+
+
     public int getId() {
         return id;
     }

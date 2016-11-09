@@ -1,10 +1,14 @@
 package com.weikun.service;
 
 import com.weikun.vo.BBSUser;
+import org.apache.commons.fileupload.FileItemIterator;
 
 /**
  * Created by Administrator on 2016/11/6.
  */
 public interface IUserService {
-    boolean login(BBSUser user);
+    BBSUser login(BBSUser user);
+    public boolean register(BBSUser user);
+    public BBSUser uploadPic(FileItemIterator fii,String spath);
+    public byte[] queryPicByid(int id) ;
 }
