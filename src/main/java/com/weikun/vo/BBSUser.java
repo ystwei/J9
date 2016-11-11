@@ -1,6 +1,7 @@
 package com.weikun.vo;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/11/6.
@@ -9,6 +10,16 @@ public class BBSUser implements Serializable {
     private int id;
     private String username;
     private String password;
+
+    public List<Article> getAlist() {
+        return alist;
+    }
+
+    public void setAlist(List<Article> alist) {
+        this.alist = alist;
+    }
+
+    private List<Article> alist;
 
     public String getPicPath() {
         return picPath;

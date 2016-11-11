@@ -9,6 +9,6 @@
         
     </head>
 <body>
-	<% response.sendRedirect("show.jsp"); %>
+    <% response.sendRedirect("article?action=queryall&rootid=0&curpage=1"); %>
 </body>
 </html>

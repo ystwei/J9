@@ -4,3 +4,47 @@
  password：密码
  pic  ：存头像的。
  pagenum：分页用的，每页几条数据
+
+
+
+
+
+drop procedure if exists mypage;
+delimiter //
+create procedure mypage(
+ in in_curpage int, #当前页
+ in in_usrid int, #如果是游客，值是999
+
+ out out_maxpage int ,#最大页
+ out out_maxrows int ,#最大行数
+ out out_perrows int #每页行数
+)
+begin
+	#计算最大行数
+	select count(*) into out_maxrows
+	from article
+	where rootid=0;
+	#取值每页行数
+	if in_usrid=999 then#游客
+
+		set out_perrows:=5;
+	else
+		select pagenum into out_perrows
+		from bbsuser
+		where id=in_usrid;
+	end if;
+
+	#计算一共多少页
+
+	set out_maxpage:=ceil(out_maxrows/out_perrows);#向上取整
+
+	set @p1:=(in_curpage-1)*out_perrows;
+	set @p2:=out_perrows;
+	set @p3:=concat("select *	from article where rootid=0	order by id desc limit ",@p1," , ",@p2);
+
+	prepare stmt from @p3;
+
+	execute stmt;
+
+end //
+delimiter ;

@@ -2,6 +2,7 @@ package com.weikun.service;
 
 import com.weikun.dao.IUserDAO;
 import com.weikun.dao.UserDAOImpl;
+import com.weikun.vo.Article;
 import com.weikun.vo.BBSUser;
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
@@ -12,6 +13,7 @@ import org.apache.commons.fileupload.util.Streams;
 
 import java.io.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -108,4 +110,6 @@ public class UserServiceImpl implements  IUserService {
     public byte[] queryPicByid(int id) {
         return dao.queryPicByid(id);
     }
+
+
 }
