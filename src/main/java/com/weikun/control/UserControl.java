@@ -24,7 +24,7 @@ import java.util.Map;
  * Created by Administrator on 2016/11/6.
  */
 @WebServlet(name = "UserControl",urlPatterns ={"/user"},initParams = {
-        @WebInitParam(name="show",value = "show.jsp")
+        @WebInitParam(name="show",value = "article?action=queryall&rootid=0&curpage=1")
 
 
 

@@ -5,6 +5,9 @@ import com.weikun.vo.Article;
 import com.weikun.vo.BBSUser;
 import com.weikun.vo.PageBean;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +59,27 @@ public class ArticleDAOImpl implements IArticleDAO {
 
                     a.setRootid(rs.getInt("rootid"));
                     a.setTitle(rs.getString("title"));
-                    a.setContent(rs.getString("content"));
+                    //a.setContent(rs.getString("content"));
+
+                    //读clob
+                    BufferedReader br=new BufferedReader(rs.getCharacterStream("content"));
+                    StringBuffer sb=new StringBuffer();
+                    String n="";
+                    try {
+                        while((n=br.readLine())!=null){
+
+                            sb.append(n);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }finally{
+                        try {
+                            br.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    a.setContent(sb.toString());
                     a.setDatetime(rs.getString("datetime"));
                     BBSUser user=new BBSUser();
                     user.setId(rs.getInt("userid"));
@@ -93,5 +116,57 @@ public class ArticleDAOImpl implements IArticleDAO {
             }
         }
         return pb;
+    }
+
+    @Override
+    public boolean delArticle(int id) {
+        boolean flag=false;
+        PreparedStatement pstmt=null;
+        String sql="delete from article where id =? or rootid=?";
+        try {
+            pstmt=conn.prepareStatement(sql);
+
+            pstmt.setInt(1,id);
+            pstmt.setInt(2,id);
+
+            flag=pstmt.executeUpdate()>0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(pstmt!=null){
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return flag;
+    }
+
+    @Override
+    public boolean addArticle(Article article) {
+        PreparedStatement pstmt=null;
+        boolean flag=false;
+        try {
+            pstmt=conn.prepareStatement("insert into " +
+                    "article(rootid,title,content,userid,datetime) " +
+                    "values(?,?,?,?,now())");
+
+            pstmt.setInt(1,article.getRootid());
+            pstmt.setString(2,article.getTitle());
+            //写clob
+            StringReader sr=new StringReader(article.getContent());
+            pstmt.setCharacterStream(3,sr,article.getContent().length());
+            pstmt.setInt(4,article.getUser().getId());
+            flag=pstmt.executeUpdate()>0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return flag;
     }
 }

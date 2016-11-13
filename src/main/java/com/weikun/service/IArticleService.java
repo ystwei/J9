@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface IArticleService {
     public PageBean queryArticleAll(int rootid, int curPage, int uid);
+    public boolean delArticle(int id) ;
+    public boolean addArticle(Article article) ;
 }

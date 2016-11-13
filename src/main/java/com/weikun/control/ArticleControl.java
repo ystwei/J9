@@ -24,7 +24,8 @@ import java.util.Map;
  */
 @WebServlet(name = "ArticleControl",urlPatterns = {"/article"},
    initParams = {
-           @WebInitParam(name="show",value = "show.jsp")
+           @WebInitParam(name="show",value = "show.jsp"),
+           @WebInitParam(name="success",value = "article?action=queryall&rootid=0&curpage=1")
 
    })
 public class ArticleControl extends HttpServlet {
@@ -48,6 +49,32 @@ public class ArticleControl extends HttpServlet {
                 dispatcher=request.getRequestDispatcher(map.get("show"));
                 break;
             }
+            case "del": {//删除帖子
+                String id=request.getParameter("id");//主贴id
+                if(service.delArticle(Integer.parseInt(id))){
+                    dispatcher=request.getRequestDispatcher(map.get("success"));
+                }
+
+                break;
+            }
+            case "addz": {//增加主帖子
+                Article a=new Article();
+                String title=new String(request.getParameter("title").getBytes("iso8859-1"),"utf-8");
+                String content=new String(request.getParameter("content").getBytes("iso8859-1"),"utf-8");
+                a.setTitle(title);
+                a.setContent(content);
+                a.setRootid(0);//主贴
+                BBSUser user=(BBSUser)request.getSession().getAttribute("user");
+
+
+                a.setUser(user);
+
+                if(service.addArticle(a)){//增加成功
+                    dispatcher=request.getRequestDispatcher(map.get("success"));
+                }
+
+                break;
+            }
 
 
         }
@@ -58,5 +85,6 @@ public class ArticleControl extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         map.put("show",config.getInitParameter("show"));
+        map.put("success",config.getInitParameter("success"));
     }
 }

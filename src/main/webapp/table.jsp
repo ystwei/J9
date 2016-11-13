@@ -20,6 +20,7 @@
 
                 </div>
 
+                <c:if test="${sessionScope.user!=null}">
 
                 <div class="btn-group sepH_b">
                     <button data-toggle="dropdown" class="btn dropdown-toggle">
@@ -33,7 +34,7 @@
                         <li><a href="UserControl?action=page&row=2&userid=${uid}">每页2行</a></li>
                     </ul>
                 </div>
-
+                </c:if>
 
 
 
@@ -100,9 +101,15 @@
 
                             <!-- 是本人贴可以删除和修改 -->
 
-                            <a
-                                    href=""
-                                    title="删除本帖"><i class="icon-trash"></i></a>
+                             <c:if test="${sessionScope.user!=null && sessionScope.user.id==a.user.id}">
+
+                                 <a
+                                         href="article?action=del&id=${a.id}"
+                                         title="删除本帖"><i class="icon-trash"></i></a>
+
+
+
+                             </c:if>
 
 
 

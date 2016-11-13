@@ -147,7 +147,7 @@
 
                             <b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a data-toggle="modal" id="my"
+                                <li><a data-toggle="modal" id="my1"
                                        data-backdrop="static"
                                        href="#login" title="登录"
                                        onclick="javascript:document.getElementById('submenu').innerHTML='登录'">登录
@@ -158,8 +158,7 @@
 
 
                                 </li>
-
-
+                                <c:if test="${sessionScope.user!=null}">
 
                                 <li><a href="#post" title="灌水" data-toggle="modal"
                                        id="myp" data-backdrop="static"
@@ -168,6 +167,7 @@
 
 
                                 </li>
+                                </c:if>
 
                                 <li class="divider"></li>
                                 <li><a href="loginout.jsp"
@@ -344,8 +344,8 @@
 </script>
 <script type="text/javascript">
     $(function() {
-        var username = $.cookie('papaoku'); // 获得cookie
-        var password = $.cookie('papaokp');
+        var username = $.cookie('www.papaok.org/username'); // 获得cookie
+        var password = $.cookie('www.papaok.org/password');
 
         $('#username').val(username);//设置文本框
         $('#password').val(password);
@@ -436,7 +436,7 @@
 
         }
         //发主贴
-        if($("#postrootaction").val()==='add'){//主帖
+        if($("#postrootaction").val()==='addz'){//主帖
             $('#addarticle').submit();
 
         }
@@ -459,7 +459,7 @@
 
         $("#postrootid").val(0);
         //发主帖标志
-        $('#postrootaction').val('add');
+        $('#postrootaction').val('addz');
 
     }
 

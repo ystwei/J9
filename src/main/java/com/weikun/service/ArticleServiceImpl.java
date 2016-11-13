@@ -2,6 +2,7 @@ package com.weikun.service;
 
 import com.weikun.dao.ArticleDAOImpl;
 import com.weikun.dao.IArticleDAO;
+import com.weikun.vo.Article;
 import com.weikun.vo.PageBean;
 
 /**
@@ -16,4 +17,15 @@ public class ArticleServiceImpl implements IArticleService {
     public PageBean queryArticleAll(int rootid, int curPage, int uid) {
         return dao.queryArticleAll(rootid,curPage,uid);
     }
+
+    @Override
+    public boolean delArticle(int id) {
+        return dao.delArticle(id);
+    }
+
+    @Override
+    public boolean addArticle(Article article) {
+        return dao.addArticle(article);
+    }
+
 }

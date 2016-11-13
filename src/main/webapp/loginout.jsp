@@ -6,6 +6,6 @@
 
 
     session.invalidate();
-    response.sendRedirect("show.jsp");
+ response.sendRedirect("article?action=queryall&rootid=0&curpage=1");
 %>
 
