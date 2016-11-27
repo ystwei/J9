@@ -370,18 +370,18 @@
 
     }
     //删除从贴
-    function del(id,rootid) {
+    function del(id,rootid,duid) {
 
         $.ajax({
             type: "post",
-            url: "ArticleControl",
-            data:"action=del&id="+id+"&rootid="+rootid,
+            url: "article",
+            data:"action=delreply&id="+id+"&rootid="+rootid,
             dataType: "text json",
             success : function(data){
 
 
                 //刷新从贴
-                showhuitie($("#postrootid").val(),$('#userid').val(),$('#userid').val(),data);
+                showhuitie($("#postrootid").val(),$('#userid').val(),duid,data);
             }
 
         });
@@ -420,13 +420,12 @@
         if($("#postrootaction").val()==='reply'){//回帖使用异步，否则不能定位到model
             $.ajax({
                 type: "post",
-                url: "ArticleControl",
+                url: "article",
                 data:"action=reply&title="+$('#title').val()+"&content="+txt+"&rootid="+$("#postrootid").val()+"&userid="+$('#userid').val(),
                 dataType: "text json",
                 success : function(data){
                     //能回帖的肯定是同一用户，所以uid和duid相等
                     //先退出发帖窗体，在显示回帖查询model
-
                     $('#rshow').modal('show');
                     $('#post').modal('hide');
                     showhuitie($("#postrootid").val(),$('#userid').val(),$('#userid').val(),data);
@@ -468,6 +467,7 @@
 
         //回子帖标志，对$("#postrootid")的赋值，在rshow方法里面
         $("#postrootaction").val("reply");
+
         $('#rshow').modal('hide');
         //清空title和content两个控件
         $('#title').val("");
@@ -501,12 +501,22 @@
             // $('#tab_head').append('<span>'+data.list[i].title+'</span>');
 
 
-            //增加删除重贴按钮,浏览用户和本帖用户相同的情况下，才能删除
+            //增加删除重贴按钮,浏览用户和本帖用户相同的情况下，才能删除，主贴用户也能删除
 
-            if(uid===duid){//字符串是否相等,删除从贴
+            if(uid==duid || uid==data.list[i].user.id){//字符串是否相等,删除从贴
+
+
+                //alert("uid:data"+uid+"---"+data.list[i].user.id+"<<>>uid:duid--->"+uid+"---"+duid);
+
                 footer="<div id='foot"+i+"' > "+
                         "	<a class='btn btn-danger'  href='#' "+
-                        "onclick='javascript:del("+data.list[i].id+","+data.list[i].rootid+")'>删除 </a>"+
+                        "onclick='del("+data.list[i].id+","+data.list[i].rootid+","+duid+")'>删除 </a>"+
+
+                        "</div> ";
+
+            }else{
+                footer="<div id='foot"+i+"' > "+
+
 
                         "</div> ";
 
@@ -561,7 +571,7 @@
         $.ajax({
             type: "post",
             url: "article",
-            data:"action=querybyid&id="+id,
+            data:"action=querybyid&rootid="+id,
             dataType: "text json",
             success : function(data){
                 //显示回帖内容，并且显示在model窗体中

@@ -28,6 +28,7 @@ import java.util.Map;
            @WebInitParam(name="show",value = "show.jsp"),
            @WebInitParam(name="success",value = "article?action=queryall&rootid=0&curpage=1")
 
+
    })
 public class ArticleControl extends HttpServlet {
     private Map<String,String> map=new HashMap<String,String>();
@@ -76,9 +77,35 @@ public class ArticleControl extends HttpServlet {
 
                 break;
             }
+
+
+            case "reply": {//增加从帖子
+                Article a=new Article();
+                String title=new String(request.getParameter("title").getBytes("iso8859-1"),"utf-8");
+                String content=new String(request.getParameter("content").getBytes("iso8859-1"),"utf-8");
+                a.setTitle(title);
+                a.setContent(content);
+                a.setRootid(Integer.parseInt(request.getParameter("rootid")));//主贴
+                BBSUser user=(BBSUser)request.getSession().getAttribute("user");
+
+
+                a.setUser(user);
+                if(a.getRootid()==0){
+                    if(service.addArticle(a)){//增加成功
+                        dispatcher=request.getRequestDispatcher(map.get("success"));
+                    }
+                }else{
+                    if(service.addArticle(a)) {//增加成功
+                        dispatcher = request.getRequestDispatcher("article?action=querybyid&rootid=" + a.getRootid());
+                    }
+                }
+
+
+                break;
+            }
             case "querybyid": {//根据主贴id查询所有从贴
 
-                String result=service.queryArticleById(Integer.parseInt(request.getParameter("id")));
+                String result=service.queryArticleById(Integer.parseInt(request.getParameter("rootid")));
 
                 response.setCharacterEncoding("utf-8");
                 response.setContentType("text/html");
@@ -89,8 +116,14 @@ public class ArticleControl extends HttpServlet {
                 out.close();
                 break;
             }
+            case "delreply": {//删除从贴
+                int id=Integer.parseInt(request.getParameter("id"));
+                int rootid=Integer.parseInt(request.getParameter("rootid"));
+                if(service.delReply(id)){
 
-
+                    dispatcher=request.getRequestDispatcher("article?action=querybyid&rootid="+rootid);
+                }
+            }
         }
         dispatcher.forward(request,response);
 

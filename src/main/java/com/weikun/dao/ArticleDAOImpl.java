@@ -119,7 +119,7 @@ public class ArticleDAOImpl implements IArticleDAO {
     }
 
     @Override
-    public boolean delArticle(int id) {
+    public boolean delArticle(int id) {//主贴服务的
         boolean flag=false;
         PreparedStatement pstmt=null;
         String sql="delete from article where id =? or rootid=?";
@@ -128,6 +128,33 @@ public class ArticleDAOImpl implements IArticleDAO {
 
             pstmt.setInt(1,id);
             pstmt.setInt(2,id);
+
+            flag=pstmt.executeUpdate()>0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(pstmt!=null){
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return flag;
+    }
+
+    @Override
+    public boolean delReply(int id) {
+
+        boolean flag=false;
+        PreparedStatement pstmt=null;
+        String sql="delete from article where id =? ";
+        try {
+            pstmt=conn.prepareStatement(sql);
+            pstmt.setInt(1,id);
 
             flag=pstmt.executeUpdate()>0;
 

@@ -53,6 +53,16 @@
                     </tr>
                     </thead>
                     <tbody>
+                    <!-- 没登陆，游客 uid=0 -->
+                    <c:if test="${sessionScope.user==null}">
+                        <c:set var="uid" value="999"/>
+
+                    </c:if>
+
+                    <c:if test="${sessionScope.user!=null}">
+                        <c:set var="uid" value="${sessionScope.user.id}"/>
+
+                    </c:if>
                     <c:forEach items="${pb.data}" var="a" varStatus="status">
 
                     <tr>
@@ -64,43 +74,20 @@
 
                             <img src="user?action=pic&id=${a.user.id}"
                                  alt="" style="height: 50px; width: 50px" />
-
                         </a>
-
-
-
                         </td>
                         <td>
-
-
                             <a href="#rshow" title="灌水" data-toggle="modal"
                                id="my6" data-backdrop="static"
                                onclick="rshow(${a.id},${uid},${a.user.id});">
                                 ${a.title}
-
                             </a>
-
-
-
-
-
-
-
                         </td>
                         <td>${a.content}</td>
                         <td>${a.datetime}</td>
                         <td>
 
-                            <!-- 没登陆，游客 uid=0 -->
-                            <c:if test="${sessionScope.user==null}">
-                                <c:set var="uid" value="999"/>
 
-                            </c:if>
-
-                            <c:if test="${sessionScope.user!=null}">
-                                <c:set var="uid" value="${sessionScope.user.id}"/>
-
-                            </c:if>
                             <!-- 锚点传值 -->
                             <a href="#rshow" title="灌水" data-toggle="modal"
                                id="myp" data-backdrop="static"

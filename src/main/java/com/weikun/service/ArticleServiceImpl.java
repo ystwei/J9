@@ -30,6 +30,11 @@ public class ArticleServiceImpl implements IArticleService {
     }
 
     @Override
+    public boolean delReply(int id) {
+        return dao.delReply(id);
+    }
+
+    @Override
     public boolean addArticle(Article article) {
         return dao.addArticle(article);
     }
