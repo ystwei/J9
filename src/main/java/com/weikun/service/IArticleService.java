@@ -12,4 +12,5 @@ public interface IArticleService {
     public PageBean queryArticleAll(int rootid, int curPage, int uid);
     public boolean delArticle(int id) ;
     public boolean addArticle(Article article) ;
+    public String queryArticleById(int id) ;
 }

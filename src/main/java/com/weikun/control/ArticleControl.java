@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,6 +74,19 @@ public class ArticleControl extends HttpServlet {
                     dispatcher=request.getRequestDispatcher(map.get("success"));
                 }
 
+                break;
+            }
+            case "querybyid": {//根据主贴id查询所有从贴
+
+                String result=service.queryArticleById(Integer.parseInt(request.getParameter("id")));
+
+                response.setCharacterEncoding("utf-8");
+                response.setContentType("text/html");
+
+                PrintWriter out=response.getWriter();
+                out.println(result);
+                out.flush();
+                out.close();
                 break;
             }
 

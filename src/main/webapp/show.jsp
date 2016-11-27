@@ -538,22 +538,9 @@
 
             }
 
-
-
-
-
-            $('#span_title').html(data.title);//添加主贴标题
-
-
-
-
-
-
-
-
-
-
         });
+
+        $('#span_title').html(data.title);//添加主贴标题
 
 
 
@@ -564,7 +551,7 @@
 
     //显示回帖的ajax
     function rshow(id,uid,duid) {
-        //id主贴 uid:浏览用户  duid:本帖id
+        //id主贴ID uid:浏览用户ID  duid:本帖id
         //显示回帖,用AJAX技术
         //把该帖子的id值付给rshow model下的隐藏字段
         $("#rshowid").val(id);
@@ -573,11 +560,12 @@
 
         $.ajax({
             type: "post",
-            url: "ArticleControl",
-            data:"action=queryid&id="+id,
+            url: "article",
+            data:"action=querybyid&id="+id,
             dataType: "text json",
             success : function(data){
                 //显示回帖内容，并且显示在model窗体中
+
                 showhuitie(id,uid,duid,data);
 
             }

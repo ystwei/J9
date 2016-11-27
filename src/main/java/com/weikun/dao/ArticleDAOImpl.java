@@ -169,4 +169,85 @@ public class ArticleDAOImpl implements IArticleDAO {
 
         return flag;
     }
+
+    /**
+     *
+     * @param id:你要查询的主贴id
+     * @return返回所有从贴的列表
+     */
+    @Override
+    public List<Article> queryArticleById(int id) {
+        PreparedStatement pstmt=null;
+        ResultSet rs=null;
+        List<Article> list=new ArrayList<>();
+        try {
+
+            String sql="select *  from article \n" +
+                    "where rootid=? or id=? order by id ";
+            pstmt=conn.prepareStatement(sql);
+
+            pstmt.setInt(1,id);
+            pstmt.setInt(2,id);
+
+            rs=pstmt.executeQuery();
+
+            while(rs.next()){
+
+                Article a=new Article();
+                a.setId(rs.getInt("id"));
+                a.setTitle(rs.getString("title"));
+                a.setRootid(rs.getInt("rootid"));
+                BBSUser usr=new BBSUser();
+                usr.setId(rs.getInt("userid"));
+
+                a.setUser(usr);
+
+                //读clob
+                BufferedReader br=new BufferedReader(rs.getCharacterStream("content"));
+                StringBuffer sb=new StringBuffer();
+                String n="";
+                try {
+                    while((n=br.readLine())!=null){
+
+                        sb.append(n);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }finally{
+                    try {
+                        br.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                a.setContent(sb.toString());
+
+                list.add(a);
+
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(rs!=null){
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(pstmt!=null){
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+
+        return list;
+    }
 }

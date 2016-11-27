@@ -73,8 +73,12 @@
                         <td>
 
 
-                            <a
-                                    href="">${a.title}</a>
+                            <a href="#rshow" title="灌水" data-toggle="modal"
+                               id="my6" data-backdrop="static"
+                               onclick="rshow(${a.id},${uid},${a.user.id});">
+                                ${a.title}
+
+                            </a>
 
 
 
@@ -88,11 +92,19 @@
                         <td>
 
                             <!-- 没登陆，游客 uid=0 -->
+                            <c:if test="${sessionScope.user==null}">
+                                <c:set var="uid" value="999"/>
 
+                            </c:if>
+
+                            <c:if test="${sessionScope.user!=null}">
+                                <c:set var="uid" value="${sessionScope.user.id}"/>
+
+                            </c:if>
                             <!-- 锚点传值 -->
-                            <a href="" title="灌水" data-toggle="modal"
+                            <a href="#rshow" title="灌水" data-toggle="modal"
                                id="myp" data-backdrop="static"
-                               onclick="rshow(${data.id},${uid},${data.user.id});">
+                               onclick="rshow(${a.id},${uid},${a.user.id});">
                                 <i class="icon-eye-open"></i>
 
                             </a>

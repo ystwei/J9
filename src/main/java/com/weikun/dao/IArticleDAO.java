@@ -13,4 +13,5 @@ public interface IArticleDAO {
     PageBean queryArticleAll(int rootid, int curPage, int usrid);//查询所有主贴，且rootid=0
     boolean delArticle(int id);
     boolean addArticle(Article article);
+    List<Article> queryArticleById(int id);
 }
